@@ -16,6 +16,7 @@ export const StyledFormContainer = styled.section`
 export const StyledForm = styled.form`
   display: flex;
   flex-direction: column;
+  width: 27%;
 `;
 export const StyledLabel = styled.label`
   display: flex;

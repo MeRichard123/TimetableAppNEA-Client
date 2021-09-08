@@ -7,6 +7,10 @@ const GlobalStyles = createGlobalStyle`
     box-sizing:border-box;
     font-family: "Poppins", sans-serif;
     }
+    input{
+        font-family: "Poppins", sans-serif !important;
+        /* line-height: 18px; */
+    }
     /* JqZSw light mode */
     /* EFeDO dark mode */
     body.dark .ReactModal__Content{
