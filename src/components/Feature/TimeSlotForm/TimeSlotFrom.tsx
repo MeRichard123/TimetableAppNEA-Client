@@ -91,7 +91,10 @@ const TimeSlotFrom: React.FC<Props> = ({
   };
 
   useEffect(() => {
-    if (timeslot !== undefined) {
+    if (timeslot === undefined && formVisible.subjectDisabled) {
+      setFormVisible({ type: 'subjectForm' });
+    } else {
+      setFormVisible({ type: 'subjectForm' });
       setFormVisible({ type: 'subjectForm' });
     }
     if (!Array.isArray(SubjectData)) {

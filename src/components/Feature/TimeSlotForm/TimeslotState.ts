@@ -18,7 +18,7 @@ const actions = {
 
 export const defaultState: stateTypes = {
   teachersDisabled: true,
-  subjectDisabled: false,
+  subjectDisabled: true,
   roomsDisabled: true,
   timeslotFormVisible: false,
 };
@@ -26,11 +26,11 @@ export const defaultState: stateTypes = {
 export const reducer = (state:stateTypes, action:actionTypes):stateTypes => {
   switch (action.type) {
     case actions.TEACHERS:
-      return { ...state, teachersDisabled: !state.teachersDisabled };
+      return { ...state, teachersDisabled: false };
     case actions.SUBJECT:
       return { ...state, subjectDisabled: !state.subjectDisabled };
     case actions.ROOMS:
-      return { ...state, roomsDisabled: !state.roomsDisabled };
+      return { ...state, roomsDisabled: false };
     case actions.TIMESLOT:
       return { ...state, timeslotFormVisible: !state.timeslotFormVisible };
     default:
