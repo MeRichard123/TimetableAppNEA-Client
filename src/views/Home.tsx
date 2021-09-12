@@ -7,11 +7,11 @@ import LandingImage from '../Assets/landing.jpg';
 import Button from '../components/Shared/Button';
 
 const StyledMain = styled.main`
-    max-height: 100vh;
     display: grid;
-    width: 100%;
     grid-template-columns: 1fr 1fr;
     place-items: center;
+    max-height: 100vh;
+    width: 100%;
     @media screen and (max-width: 900px){
         grid-template-columns: 1fr;
         grid-template-rows: repeat(3, 1fr);

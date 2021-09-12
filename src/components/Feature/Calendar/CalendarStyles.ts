@@ -33,15 +33,15 @@ grid-row: 8/9;
 
 export const StyledMobileSelect = styled.select`
     all:initial;
-    font-family: "Poppins", sans-serif;
-    width: 51px;
-    height: 51px;
-    color: white;
     display: flex;
     align-items:center;
-    text-align-last: center;
+    width: 51px;
+    height: 51px;
     border-radius: 15px;
     background: #556173;
+    color: white;
+    font-family: "Poppins", sans-serif;
+    text-align-last: center;
     cursor: pointer;
     &:hover{
         background: #4d5561;
@@ -55,23 +55,23 @@ export const StyledMobileSelect = styled.select`
 export const StyledSelectContainer = styled.div`
   position: relative;
   &:before{
-        font-family: FontAwesome;
-        font-weight: 900;
-        font-weight: 900;
-        content: '\f078';
-        pointer-events: none;
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        right: 30px;
+    content: '\f078';
+    position: absolute;
+    top: 50%;
+    right: 30px;
+    font-family: FontAwesome;
+    font-weight: 900;
+    font-weight: 900;
+    pointer-events: none;
+    transform: translateY(-50%);
   }
 `;
 export const StyledSelect = styled.select`
   all: initial;
   padding: 0.5rem 3rem 0.5rem 2rem;
-  font-family: "Poppins", sans-serif;
   border: 1px solid ${(props) => props.theme.text};
   color: ${(props) => props.theme.text};
+  font-family: "Poppins", sans-serif;
   &:focus{
     outline: 3px solid #515151;
     outline-offset: 2px;
@@ -80,11 +80,11 @@ export const StyledSelect = styled.select`
 `;
 
 export const StyledOption = styled.option`
-  font-family: "Poppins", sans-serif;
-  color: ${(props) => props.theme.text};
-  background: ${(props) => props.theme.background};
-  margin: 0;
   padding: 0;
+  margin: 0;
+  background: ${(props) => props.theme.background};
+  color: ${(props) => props.theme.text};
+  font-family: "Poppins", sans-serif;
   &:disabled{
     color: #777575;
   }

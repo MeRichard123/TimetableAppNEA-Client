@@ -22,12 +22,12 @@ const queryClient = new QueryClient({
 });
 
 const StyledApp = styled.div`
-  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  transform: all 500ms ease;
+  min-height: 100vh;
   background: ${(props) => props.theme.background};
+  transform: all 500ms ease;
 `;
 
 function App() {

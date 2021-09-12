@@ -27,21 +27,21 @@ export const StyledOverViewForm = styled.form`
 `;
 
 export const StyledContainer = styled.form<ContainerProps>`
-    display: flex;
-    flex-direction: column;
     position: relative;
-    gap: 0.5rem;
+    display: flex;
     justify-content: center;
     align-items:center;
+    flex-direction: column;
+    gap: 0.5rem;
     opacity: ${(props) => (props.disabled ? '50%' : '')};
     &:after{
         content: '';
-        display: ${(props) => (props.disabled ? '' : 'none')};
-        top: 0;
-        left: 0;
         position:absolute;
+        left: 0;
+        top: 0;
         bottom: 0;
         right: 0;
+        display: ${(props) => (props.disabled ? '' : 'none')};
         opacity: ${(props) => (props.disabled ? '50%' : '')};
     }
 `;

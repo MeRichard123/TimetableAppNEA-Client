@@ -2,11 +2,11 @@ import React from 'react';
 import styled, { keyframes } from 'styled-components';
 
 const StyledContainer = styled.section`
-    height: 100vh;
     display: flex;
     justify-content: center;
     flex-direction: column;
     align-items: center;
+    height: 100vh;
     background: ${(props) => props.theme.background};
     color: ${(props) => props.theme.text};
 `;
@@ -19,11 +19,11 @@ const StyledInfoText = styled.p`
 `;
 const Clock = styled.div`
    position: relative;
-   background: ${(props) => props.theme.text};
    width: 30vh;
    height: 30vh;
-   border-radius: 15vh;
    margin: 0 10px 10px 0;
+   border-radius: 15vh;
+   background: ${(props) => props.theme.text};
 `;
 
 const Rotate = keyframes`
@@ -36,14 +36,14 @@ const Rotate = keyframes`
 `;
 
 const HourHand = styled.div`
-   background: ${(props) => props.theme.background};
+   position: absolute;
+   left: 50%;
+   top: 20%;
    width: 5px;
    height: 10vh;
    border-radius: 15vh;
-   position: absolute;
+   background: ${(props) => props.theme.background};
    transform-origin: bottom center;
-   left: 50%;
-   top: 20%;
    transform: translate(-50%, -20%);
    animation: ${Rotate} 6s linear infinite;
 `;

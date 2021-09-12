@@ -1,14 +1,14 @@
 import styled from 'styled-components';
 
 export const StyledTabGroup = styled.div`
-  width: 100vw;
-  overflow-x: scroll;
   display: flex;
   flex-wrap: nowrap;
-  padding: 0 10px 10px 10px;
-  overflow-y: visible;
+  width: 100vw;
   height: 100%;
+  padding: 0 10px 10px 10px;
   margin: 5px 0;
+  overflow-y: visible;
+  overflow-x: scroll;
   @media screen and (min-width: 1010px){
     justify-content: center;
     overflow-x: hidden;
@@ -20,23 +20,23 @@ export const StyledTabContainer = styled.div`
   margin: 0 auto;
   &::after{
     content: "";
-    width: 80%;
     position: absolute;
-    height: 2px;
     left: 50%;
-    transform:translate(-50%, 15px);
+    width: 80%;
+    height: 2px;
     background: ${(props) => props.theme.text};
+    transform:translate(-50%, 15px);
   }
 `;
 
 export const StyledErrorContainer = styled.div`
-  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #e74c3c;
-  color: white;
-  border-radius: 25px;
+  width: 100%;
   padding: 2rem 0;
   margin-top: 20px;
+  border-radius: 25px;
+  background-color: #e74c3c;
+  color: white;
 `;

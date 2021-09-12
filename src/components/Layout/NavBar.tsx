@@ -9,27 +9,27 @@ interface NavBarProps{
 }
 
 const StyledNav = styled.nav<NavBarProps>`
-    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-    padding: 10px;
     position: fixed;
     top: 0;
     width: 100%;
-    background: ${(props) => props.theme.navColour};
     display: flex;
-    justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
+    justify-content: space-between;
     z-index: 999;
+    padding: 10px;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    background: ${(props) => props.theme.navColour};
     @media screen and (max-width: 700px){
       justify-content: ${(props) => (props.Authenticated ? 'center' : '')};
     }
 `;
 const StyledLogo = styled.span`
+    margin-left: 10px;
+    padding: 5px;
     font-family: 'Megrim', cursive;
     font-size: clamp(1.5rem, 1.5vw, 10rem);
-    margin-left: 10px;
     color: ${(props) => props.theme.text};
-    padding: 5px;
 `;
 
 interface LinkProps{
@@ -37,9 +37,9 @@ interface LinkProps{
 }
 
 const StyledNavLink = styled.span<LinkProps>`
+  margin: 0 15px;
   color: ${(props) => props.theme.text};
   text-decoration: ${(props) => (props.location ? 'underline' : '')};
-  margin: 0 15px;
 `;
 
 const NavBar = () => {

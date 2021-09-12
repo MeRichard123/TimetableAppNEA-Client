@@ -5,19 +5,19 @@ const Btn = styled.button`
   all: initial;
   display: inline-flex;
   align-items: center;
-  text-align: center;
   justify-content: center;
   padding: 0.5rem 1.1rem;
-  font-family: "Poppins", sans-serif;
   border-radius: 0.375rem;
-  user-select: none;
+  border-color: rgba(209, 213, 219, 1);
   color: white;
   background: ${(props) => props.theme.accent};
-  cursor: pointer;
-  border-color: rgba(209, 213, 219, 1);
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  font-family: "Poppins", sans-serif;
+  text-align: center;
   font-size:0.875rem;
   line-height: 1.25rem;
+  user-select: none;
+  cursor: pointer;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
   &:focus {
     outline: 4px solid #344db1;
     outline-offset: 2px;
@@ -31,17 +31,17 @@ const BigBtn = styled.button`
   all: initial;
   display: inline-flex;
   align-items: center;
-  font-family: "Poppins", sans-serif;
   padding: 0.8rem 1.8rem;
   border-radius: 0.375rem;
-  user-select: none;
-  color: white;
   background: ${(props) => props.theme.accent};
-  cursor: pointer;
+  color: white;
   border-color: rgba(209, 213, 219, 1);
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  font-family: "Poppins", sans-serif;
   font-size: 1.2rem;
   line-height: 1.25rem;
+  cursor: pointer;
+  user-select: none;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
   &:focus {
     outline: 2px solid transparent;
     outline-offset: 2px;

@@ -22,30 +22,30 @@ const StyledThemeToggleButton = styled.button`
     cursor: pointer;
 
     &:before{
-        font-family: FontAwesome;
-        font-weight: 900;
-        content: '\f185';
-        transition: opacity 200ms ease-in-out;
-        position: absolute;
-        opacity:  ${(props) => (props.theme === 'light' ? '0' : '1')};
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%);
+      content: '\f185';
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      font-family: FontAwesome;
+      font-weight: 900;
+      transition: opacity 200ms ease-in-out;
+      opacity:  ${(props) => (props.theme === 'light' ? '0' : '1')};
+      transform: translate(-50%, -50%);
     }
     &:after{
-        font-family: FontAwesome;
-        font-weight: 900;
-        content: "\f186";
-        transition: opacity 200ms ease-in-out;
-        position: absolute;
-        opacity:  ${(props) => (props.theme === 'dark' ? '0' : '1')};
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%);
+      content: "\f186";
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      font-family: FontAwesome;
+      font-weight: 900;
+      transition: opacity 200ms ease-in-out;
+      opacity:  ${(props) => (props.theme === 'dark' ? '0' : '1')};
+      transform: translate(-50%, -50%);
     }
     &:focus{
-    outline: 4px solid ${(props) => (props.theme === 'light' ? 'black' : 'white')};
-    outline-offset: 2px;
+      outline: 4px solid ${(props) => (props.theme === 'light' ? 'black' : 'white')};
+      outline-offset: 2px;
   }
 `;
 

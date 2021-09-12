@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 
 export const StyledError = styled.div`
-  color: #e74c3c;;
-  text-align: center;
   margin-bottom: 20px;
+  text-align: center;
+  color: #e74c3c;
 `;
 export const StyledFormContainer = styled.section`
   display: flex;

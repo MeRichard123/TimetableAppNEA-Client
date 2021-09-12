@@ -2,16 +2,16 @@ import React from 'react';
 import styled from 'styled-components';
 
 const StyledFooterContainer = styled.footer`
-    padding: 1.5rem;
-    color: ${(props) => props.theme.text};
     display: flex;
-    border-top: 3px solid ${(props) => props.theme.text};
-    margin: 0 50px;
     justify-content: center;
     align-items: center;
+    padding: 1.5rem;
+    margin: 0 50px;
+    color: ${(props) => props.theme.text};
+    border-top: 3px solid ${(props) => props.theme.text};
     `;
 const StyledLink = styled.a`
-margin: 0 5px;
+  margin: 0 5px;
   &:focus{
     outline: 2px solid #515151;
     outline-offset: 1px;
@@ -23,16 +23,15 @@ const StyledWrapper = styled.div`
 const StyledAuthor = styled.span`
   position: relative;
   display: inline-block;
-
-    &:after{
+  &:after{
+    content: "";
     display: block;
     position: absolute;
-    content: "";
+    bottom: 4px;
     width: 100%;
     height: 1px;
     transition: height 250ms ease-in-out;
     background: ${(props) => props.theme.text};
-    bottom: 4px;
   }
   &:hover{
     &:after{
