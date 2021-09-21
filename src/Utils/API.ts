@@ -63,7 +63,7 @@ export default class API {
    * @example
    * API.GetClasses('Yr8','454fs6d5g4d5f')
    */
-  static async GetClasses(yearGroup: string, token: string): Promise<ClassType[]> {
+  static async GetClasses(yearGroup: string, token: string): Promise<ClassType> {
     const year = yearGroup.slice(2);
     const url = `${BASE_URL}/year/${year}`;
     const { data } = await axios.get(url, {

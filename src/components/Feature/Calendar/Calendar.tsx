@@ -54,10 +54,10 @@ interface ModalProps{
   unit: string;
   className: string;
   data: ClassType;
-  timeslot: Timeslot;
+  timeslot: Timeslot | undefined;
 }
 
-const Modal:React.FC<ModalProps> = ({
+export const Modal:React.FC<ModalProps> = ({
   modalIsOpen, setModalIsOpen, day, unit, className, data, timeslot,
 }) => (
   <ReactModal
@@ -161,7 +161,7 @@ const Calendar: React.FC<Props> = ({ yearGroup }) => {
                     {classes.map((cls) => {
                       const ClassTimeslot = timeslots.filter(
                         (timeslot) => timeslot.ClassGroup === cls
-                              && timeslot.Day === day && timeslot.Unit === `Unit${unit}`,
+                        && timeslot.Day === day && timeslot.Unit === `Unit${unit}`,
                       );
                       return (
                         <StyledOption
@@ -178,17 +178,18 @@ const Calendar: React.FC<Props> = ({ yearGroup }) => {
                     <StyledSelect
                       defaultValue="Select"
                       onChange={
-                          (e) => {
-                            setDay(day);
-                            setUnit(unit);
-                            setClass(e.target.value);
-                            const ClassTimeslot = timeslots.filter(
-                              (timeslot) => timeslot.ClassGroup === e.target.value
-                              && timeslot.Day === day && timeslot.Unit === `Unit${unit}`,
-                            );
-                            setClassTimeslot(ClassTimeslot[0]);
-                            setModalIsOpen(true);
-                          }
+                        (e) => {
+                          setDay(day);
+                          setUnit(unit);
+                          setClass(e.target.value);
+                          const ClassTimeslot = timeslots.filter(
+                            (timeslot) => timeslot.ClassGroup === e.target.value
+                            && timeslot.Day === day && timeslot.Unit === `Unit${unit}`,
+                          );
+                          console.log(ClassTimeslot[0]);
+                          setClassTimeslot(ClassTimeslot[0]);
+                          setModalIsOpen(true);
+                        }
                         }
                     >
                       <StyledOption

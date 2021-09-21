@@ -5,6 +5,7 @@ export const StyledTableContainer = styled.section`
     grid-template-columns: repeat(6, 1fr);
     grid-template-rows: repeat(8, 1fr);
     place-items: center;
+    text-align: center;
     row-gap: 2.5rem;
     margin: 50px 5px 70px 5px;
 `;
@@ -54,6 +55,7 @@ export const StyledMobileSelect = styled.select`
 `;
 export const StyledSelectContainer = styled.div`
   position: relative;
+  width: min-content;
   &:before{
     content: '\f078';
     position: absolute;

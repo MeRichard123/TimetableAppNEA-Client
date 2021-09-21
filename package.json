@@ -5,7 +5,7 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "serve": "vite preview",
-    "deploy": "npm run build && surge --domain https://kstabler.surge.sh/ ./dist"
+    "deploy": "npm run build && cd dist && rename index.html 200.html && cd .. && surge --domain https://kstabler.surge.sh/ ./dist"
   },
   "dependencies": {
     "axios": "^0.21.1",

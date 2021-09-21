@@ -6,8 +6,11 @@ import { StyledTabGroup, StyledTabContainer, StyledErrorContainer } from '../Tim
 import Tab from '../../components/Shared/Tab';
 import API from '../../Utils/API';
 import { usePermissions, useAuthToken } from '../../Utils/store';
-import type { OverviewType, RoomResponseObjectType, TeacherResponseObjectType } from '../../Utils/APITypes';
+import type {
+  OverviewType, RoomResponseObjectType, TeacherResponseObjectType, ClassType, Timeslot,
+} from '../../Utils/APITypes';
 import { StyledSelect, StyledOption, StyledSelectContainer } from '../../components/Feature/Calendar/CalendarStyles';
+import OverviewTimetable from './OverviewTimetable';
 
 const StyledLineBreak = styled.hr`
   width: 200px;
@@ -22,6 +25,16 @@ const StyledInfoContainer = styled.div`
   text-align: center;
   margin: 50px;
 `;
+const TimetableHeaderContainer = styled.div`
+   text-align: center;
+   display: inline-flex;
+   justify-content: center;
+   align-items: center;
+   flex-wrap: wrap;
+   *{
+     margin: 10px;
+   }
+`;
 
 const Overview = () => {
   const isAdmin = usePermissions((state) => state.isAdmin);
@@ -35,6 +48,12 @@ const Overview = () => {
   const [ComputerRooms, setComputerRooms] = useState<RoomResponseObjectType[]>();
   const [freeTeachers, setFreeTeachers] = useState<TeacherResponseObjectType[]>([]);
 
+  const [yearGroup, setYear] = useState<string>('Yr7');
+  const [classes, setClasses] = useState<string[]>([]);
+  const [classTimeslots, setClassTimeslots] = useState<Timeslot[]>([]);
+  const [currentClass, setCurrentClass] = useState<string>('');
+  const [data, setData] = useState<any>();
+
   const { data: allSubjects, isLoading, isSuccess } = useQuery<string[]>(['getAllSubjects', token],
     () => API.GetAllSubjects(token));
 
@@ -47,7 +66,13 @@ const Overview = () => {
     ).catch((e) => {
       console.log(e);
     });
-  }, [day, unit, selectedSubject]);
+
+    API.GetClasses(yearGroup, token).then((res:ClassType) => {
+      setClasses(res.classes);
+      setClassTimeslots(res.timeslots);
+      setData(res);
+    });
+  }, [day, unit, selectedSubject, yearGroup]);
   return (
     <StyledPage>
       <StyledTabContainer className="tabs">
@@ -107,7 +132,37 @@ const Overview = () => {
 
         </StyledInfoContainer>
       </StyledOverview>
-
+      <hr />
+      <StyledInfoContainer>
+        <StyledTabGroup>
+          {['Yr7', 'Yr8', 'Yr9', 'Yr10', 'Yr11', 'Yr12', 'Yr13', 'Yr14'].reverse().map((year) => (
+            <Tab
+              key={year}
+              onClick={() => { setYear(year); }}
+              active={yearGroup === year}
+            >
+              {year}
+            </Tab>
+          ))}
+        </StyledTabGroup>
+        <TimetableHeaderContainer>
+          <StyledSelectContainer>
+            <StyledSelect
+              onChange={(e) => {
+                setCurrentClass(e.target.value);
+              }}
+              defaultValue="Select Subject"
+            >
+              <StyledOption defaultValue="Select Class" value="Select Class">Select Class</StyledOption>
+              {classes?.sort().map((class_) => (
+                <StyledOption key={class_}>{class_}</StyledOption>
+              ))}
+            </StyledSelect>
+          </StyledSelectContainer>
+          <h1>Timetable</h1>
+        </TimetableHeaderContainer>
+        <OverviewTimetable classCode={currentClass} timeslots={classTimeslots} data={data} />
+      </StyledInfoContainer>
     </StyledPage>
   );
 };
