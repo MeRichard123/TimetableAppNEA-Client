@@ -17,6 +17,9 @@ export const StyledForm = styled.form`
   display: flex;
   flex-direction: column;
   width: 27%;
+  @media screen and (max-width: 1000px){
+    width: 90%;
+  }
 `;
 export const StyledLabel = styled.label`
   display: flex;

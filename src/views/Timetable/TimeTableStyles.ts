@@ -9,7 +9,7 @@ export const StyledTabGroup = styled.div`
   margin: 5px 0;
   overflow-y: visible;
   overflow-x: scroll;
-  @media screen and (min-width: 1010px){
+  @media screen and (min-width: 1000px){
     justify-content: center;
     overflow-x: hidden;
   }

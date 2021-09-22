@@ -8,6 +8,7 @@ export const StyledTableContainer = styled.section`
     text-align: center;
     row-gap: 2.5rem;
     margin: 50px 5px 70px 5px;
+    width: 100%;
 `;
 export const StyledLabel = styled.p`
     font-weight: bold;

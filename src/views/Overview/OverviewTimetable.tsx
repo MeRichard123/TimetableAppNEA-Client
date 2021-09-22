@@ -28,6 +28,9 @@ const AddBtn = styled.div`
     margin: 1px;
     border-radius: 12px;
     cursor: pointer;
+    @media screen and (max-width:900px){
+      padding: 0.5rem 1rem;
+    }
 `;
 
 const StyledTimeslot = styled.div`
