@@ -104,6 +104,7 @@ const TimeSlotFrom: React.FC<Props> = ({
     } else {
       setSubjectDataArray(SubjectData);
     }
+    console.log(SubjectDataArray);
   }, [SubjectData, isLoading, isSuccess]);
 
   return (
@@ -112,7 +113,12 @@ const TimeSlotFrom: React.FC<Props> = ({
         <Button type="submit">Set Subject</Button>
         <StyledSelectContainer style={{ width: 'max-content' }}>
           {isLoading ? 'Loading' : (
-            <StyledSelect onChange={(e) => setSubject(e.target.value)}>
+            <StyledSelect onChange={(e) => {
+              setSubject(e.target.value);
+              // Hide create timeslot box if you change the select value
+              setFormVisible({ type: 'timeslotForm', payload: { value: false } });
+            }}
+            >
               <StyledOption>Select Subject</StyledOption>
               {SubjectDataArray.length > 0 ? SubjectDataArray?.map((subject: SubjectType) => (
                 <StyledOption key={subject?.name + subject?.count}>{subject?.name}</StyledOption>
@@ -125,7 +131,11 @@ const TimeSlotFrom: React.FC<Props> = ({
       <StyledContainer onSubmit={SubmitTeacher} disabled={formVisible.teachersDisabled}>
         <Button type="submit">Set Teacher</Button>
         <StyledSelectContainer style={{ width: 'max-content' }}>
-          <StyledSelect onChange={(e) => setTeacher(e.target.value)}>
+          <StyledSelect onChange={(e) => {
+            setTeacher(e.target.value);
+            setFormVisible({ type: 'timeslotForm', payload: { value: false } });
+          }}
+          >
             <StyledOption>Select Teacher</StyledOption>
             {TeacherDataArray.length > 0 ? TeacherDataArray?.map((teacher:TeacherType) => (
               <StyledOption key={teacher.name}>{teacher.name}</StyledOption>
@@ -140,8 +150,10 @@ const TimeSlotFrom: React.FC<Props> = ({
         <StyledSelectContainer style={{ width: 'max-content' }}>
           <StyledSelect onChange={(e) => setRoom(e.target.value)}>
             <StyledOption>Select Room</StyledOption>
-            {RoomDataArray.length > 0 ? RoomDataArray?.map((room:RoomType) => (
-              <StyledOption key={room.RoomNumber + room.RoomType}>{ room.RoomNumber}</StyledOption>
+            {RoomDataArray.length > 0 ? RoomDataArray?.map((room:RoomType, index:number) => (
+              <StyledOption key={room.RoomNumber + room.RoomType} bold={index === 0}>
+                {room.RoomNumber}
+              </StyledOption>
             )) : <StyledOption disabled>No Rooms Found</StyledOption>}
           </StyledSelect>
         </StyledSelectContainer>
@@ -162,7 +174,17 @@ const TimeSlotFrom: React.FC<Props> = ({
           <Button type="submit">Delete Timeslot</Button>
         </StyledOverViewForm>
       )}
-      {SubjectDataArray.length === 1 && <p>* This Subject has been grouped</p>}
+      {(SubjectDataArray.length === 1
+        && timeslot === undefined)
+        && <p>* This Subject has been grouped</p>}
+      {(!SubjectDataArray.some((r: SubjectType) => ['Maths', 'PE', 'English', 'PSHE'].includes(r?.name))
+        && timeslot === undefined)
+        && (
+        <p>
+          * Blocked Subjects have been excluded because
+          another class has an unblocked subject at this time.
+        </p>
+        )}
     </StyledFormContainer>
   );
 };

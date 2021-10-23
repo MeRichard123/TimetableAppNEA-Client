@@ -82,9 +82,14 @@ export const StyledSelect = styled.select`
   }
 `;
 
-export const StyledOption = styled.option`
+interface OptionProps{
+  readonly bold?: boolean;
+}
+
+export const StyledOption = styled.option<OptionProps>`
   padding: 0;
   margin: 0;
+  font-weight: ${(props) => (props.bold ? 900 : 'initial')};
   background: ${(props) => props.theme.background};
   color: ${(props) => props.theme.text};
   font-family: "Poppins", sans-serif;

@@ -5,8 +5,13 @@ teachersDisabled:boolean;
   timeslotFormVisible:boolean;
 }
 
+interface PayloadType{
+  value: boolean;
+}
+
 interface actionTypes{
-    type: string;
+  type: string;
+  payload?: PayloadType;
 }
 
 const actions = {
@@ -32,7 +37,11 @@ export const reducer = (state:stateTypes, action:actionTypes):stateTypes => {
     case actions.ROOMS:
       return { ...state, roomsDisabled: false };
     case actions.TIMESLOT:
+      if (action.payload) {
+        return { ...state, timeslotFormVisible: action.payload.value };
+      }
       return { ...state, timeslotFormVisible: !state.timeslotFormVisible };
+
     default:
       return state;
   }
