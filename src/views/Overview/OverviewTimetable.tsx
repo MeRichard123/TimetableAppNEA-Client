@@ -37,6 +37,9 @@ const StyledTimeslot = styled.div`
   margin: 2px;
   font-size: clamp(0.5rem, 2vw, 1rem);
 `;
+const StyledPDFTitle = styled.h1`
+  display: none;
+`;
 
 const OverviewTimetable: React.FC<PropTypes> = ({ classCode, timeslots, data }) => {
   const isMobile = useMediaQuery({ query: '(max-width: 900px)' });
@@ -49,34 +52,40 @@ const OverviewTimetable: React.FC<PropTypes> = ({ classCode, timeslots, data }) 
   }, [classCode]);
 
   return (
-    <StyledTableContainer>
-      <Modal
-        modalIsOpen={modalIsOpen}
-        setModalIsOpen={setModalIsOpen}
-        day={currentDay}
-        unit={currentUnit}
-        className={classCode}
-        data={data}
-        timeslot={undefined}
-      />
+    <div className="timetable">
+      <StyledPDFTitle>
+        {classCode}
+        {' '}
+        - Timetable
+      </StyledPDFTitle>
+      <StyledTableContainer>
+        <Modal
+          modalIsOpen={modalIsOpen}
+          setModalIsOpen={setModalIsOpen}
+          day={currentDay}
+          unit={currentUnit}
+          className={classCode}
+          data={data}
+          timeslot={undefined}
+        />
 
-      <p />
-      <StyledLabel>{isMobile ? 'Mon' : 'Monday'}</StyledLabel>
-      <StyledLabel>{isMobile ? 'Tue' : 'Tuesday'}</StyledLabel>
-      <StyledLabel>{isMobile ? 'Wed' : 'Wednesday'}</StyledLabel>
-      <StyledLabel>{isMobile ? 'Thu' : 'Thursday'}</StyledLabel>
-      <StyledLabel>{isMobile ? 'Fri' : 'Friday'}</StyledLabel>
-      <StyledLabel>{isMobile ? 'U1' : 'Unit 1'}</StyledLabel>
-      <StyledUnitTwo>{isMobile ? 'U2' : 'Unit 2'}</StyledUnitTwo>
-      <StyledUnitForm>{isMobile ? 'Reg' : 'Form'}</StyledUnitForm>
-      <StyledUnitThree>{isMobile ? 'U3' : 'Unit 3'}</StyledUnitThree>
-      <StyledUnitFour>{isMobile ? 'U4' : 'Unit 4'}</StyledUnitFour>
-      <StyledUnitFormTwo>{isMobile ? 'Reg' : 'Form'}</StyledUnitFormTwo>
-      <StyledUnitFive>{isMobile ? 'U5' : 'Unit 5'}</StyledUnitFive>
-      {units.map((unit) => days.map((day) => (
-        <div key={`${day}-${unit}`}>
-          {(unit === 'Form' || unit === 'Form2') && (<p>Reg</p>)}
-          {(timeslotsFiltered.filter((timeslot) => timeslot.Day === day
+        <p />
+        <StyledLabel>{isMobile ? 'Mon' : 'Monday'}</StyledLabel>
+        <StyledLabel>{isMobile ? 'Tue' : 'Tuesday'}</StyledLabel>
+        <StyledLabel>{isMobile ? 'Wed' : 'Wednesday'}</StyledLabel>
+        <StyledLabel>{isMobile ? 'Thu' : 'Thursday'}</StyledLabel>
+        <StyledLabel>{isMobile ? 'Fri' : 'Friday'}</StyledLabel>
+        <StyledLabel>{isMobile ? 'U1' : 'Unit 1'}</StyledLabel>
+        <StyledUnitTwo>{isMobile ? 'U2' : 'Unit 2'}</StyledUnitTwo>
+        <StyledUnitForm>{isMobile ? 'Reg' : 'Form'}</StyledUnitForm>
+        <StyledUnitThree>{isMobile ? 'U3' : 'Unit 3'}</StyledUnitThree>
+        <StyledUnitFour>{isMobile ? 'U4' : 'Unit 4'}</StyledUnitFour>
+        <StyledUnitFormTwo>{isMobile ? 'Reg' : 'Form'}</StyledUnitFormTwo>
+        <StyledUnitFive>{isMobile ? 'U5' : 'Unit 5'}</StyledUnitFive>
+        {units.map((unit) => days.map((day) => (
+          <div key={`${day}-${unit}`}>
+            {(unit === 'Form' || unit === 'Form2') && (<p>Reg</p>)}
+            {(timeslotsFiltered.filter((timeslot) => timeslot.Day === day
                   && timeslot.Unit === `Unit${unit}`).length === 0
                   && (!['Form', 'Form2'].includes(unit))
             && (
@@ -90,7 +99,7 @@ const OverviewTimetable: React.FC<PropTypes> = ({ classCode, timeslots, data }) 
               </AddBtn>
             )
           )}
-          {
+            {
                   timeslotsFiltered.filter((timeslot) => timeslot.Day === day && timeslot.Unit === `Unit${unit}`).map((timeslot) => (
                     <StyledTimeslot key={timeslot.id}>
                       <p>{timeslot.Subject}</p>
@@ -100,9 +109,10 @@ const OverviewTimetable: React.FC<PropTypes> = ({ classCode, timeslots, data }) 
                   ))
 
          }
-        </div>
-      )))}
-    </StyledTableContainer>
+          </div>
+        )))}
+      </StyledTableContainer>
+    </div>
   );
 };
 

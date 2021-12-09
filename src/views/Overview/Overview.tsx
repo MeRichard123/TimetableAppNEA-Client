@@ -1,16 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useQuery } from 'react-query';
+import html2canvas from 'html2canvas';
+import JSPDF from 'jspdf';
+import { format } from 'date-fns';
 import StyledPage from '../../components/Layout/Page';
-import { StyledTabGroup, StyledTabContainer, StyledErrorContainer } from '../Timetable/TimeTableStyles';
+import { StyledTabGroup, StyledTabContainer } from '../Timetable/TimeTableStyles';
 import Tab from '../../components/Shared/Tab';
 import API from '../../Utils/API';
-import { usePermissions, useAuthToken } from '../../Utils/store';
+import { useAuthToken } from '../../Utils/store';
 import type {
   OverviewType, RoomResponseObjectType, TeacherResponseObjectType, ClassType, Timeslot,
 } from '../../Utils/APITypes';
 import { StyledSelect, StyledOption, StyledSelectContainer } from '../../components/Feature/Calendar/CalendarStyles';
 import OverviewTimetable from './OverviewTimetable';
+import Button from '../../components/Shared/Button';
 
 const StyledLineBreak = styled.hr`
   width: 200px;
@@ -37,7 +41,6 @@ const TimetableHeaderContainer = styled.div`
 `;
 
 const Overview = () => {
-  const isAdmin = usePermissions((state) => state.isAdmin);
   const token = useAuthToken((state) => state.token);
   const daysOfTheWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
   const unitsOfTheWeek = ['Unit 1', 'Unit 2', 'Unit 3', 'Unit 4', 'Unit 5'];
@@ -64,6 +67,7 @@ const Overview = () => {
         setFreeTeachers(res.teachers);
       },
     ).catch((e) => {
+      // eslint-disable-next-line no-console
       console.log(e);
     });
 
@@ -73,6 +77,23 @@ const Overview = () => {
       setData(res);
     });
   }, [day, unit, selectedSubject, yearGroup]);
+
+  const printDocument = () => {
+    const input = document.querySelector('.timetable');
+    const title = document.querySelector('.timetable h1') as HTMLElement;
+    title.style.display = 'block';
+    html2canvas(input as HTMLElement)
+      .then((canvas) => {
+        const imgData = canvas.toDataURL('image/png');
+        const pdf = new JSPDF();
+        pdf.addImage(imgData, 'JPEG', 0, 25, 210, 0);
+        const now = format(new Date(), 'dd-MM-yyyy');
+        const fileName = `timetable-${currentClass}-${now}.pdf`;
+        pdf.save(fileName);
+      });
+    title.style.display = 'none';
+  };
+
   return (
     <StyledPage>
       <StyledTabContainer className="tabs">
@@ -162,6 +183,7 @@ const Overview = () => {
           <h1>Timetable</h1>
         </TimetableHeaderContainer>
         <OverviewTimetable classCode={currentClass} timeslots={classTimeslots} data={data} />
+        <Button type="button" exportButton onClick={() => printDocument()}>Export</Button>
       </StyledInfoContainer>
     </StyledPage>
   );
