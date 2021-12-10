@@ -75,6 +75,9 @@ const Overview = () => {
       setClasses(res.classes);
       setClassTimeslots(res.timeslots);
       setData(res);
+    }).catch((e) => {
+      // eslint-disable-next-line no-console
+      console.log(e);
     });
   }, [day, unit, selectedSubject, yearGroup]);
 
@@ -126,8 +129,7 @@ const Overview = () => {
           <p>Free Computer Rooms:</p>
           <ul>
             {ComputerRooms?.map((room: RoomResponseObjectType) => (
-              <li key={room.id}>{room.RoomNumber}</li>
-            ))}
+              <li key={room.id}>{room.RoomNumber}</li>))}
           </ul>
         </StyledInfoContainer>
         <StyledInfoContainer>

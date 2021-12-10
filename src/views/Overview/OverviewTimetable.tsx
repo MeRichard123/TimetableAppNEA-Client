@@ -16,7 +16,7 @@ const units:Array<string> = ['1', '2', 'Form', '3', '4', 'Form2', '5'];
 ReactModal.setAppElement('#root');
 
 interface PropTypes{
-    classCode: string;
+  classCode: string;
   timeslots: Timeslot[];
   data: ClassType;
 }
@@ -100,13 +100,13 @@ const OverviewTimetable: React.FC<PropTypes> = ({ classCode, timeslots, data }) 
             )
           )}
             {
-                  timeslotsFiltered.filter((timeslot) => timeslot.Day === day && timeslot.Unit === `Unit${unit}`).map((timeslot) => (
-                    <StyledTimeslot key={timeslot.id}>
-                      <p>{timeslot.Subject}</p>
-                      <p>{timeslot.Teacher }</p>
-                      <p>{timeslot.Room}</p>
-                    </StyledTimeslot>
-                  ))
+              timeslotsFiltered.filter((timeslot) => timeslot.Day === day && timeslot.Unit === `Unit${unit}`).map((timeslot) => (
+                <StyledTimeslot key={timeslot.id}>
+                  <p>{timeslot.Subject}</p>
+                  <p>{timeslot.Teacher }</p>
+                  <p>{timeslot.Room}</p>
+                </StyledTimeslot>
+              ))
 
          }
           </div>
