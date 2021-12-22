@@ -21,6 +21,11 @@ type permissionState = {
   setIsAdmin: (isAdmin: boolean) => void;
 }
 
+type TutorialState = {
+  tutorialDone: boolean;
+  setTutorialDone: (tutorialDone: boolean) => void;
+}
+
 // export const BASE_URL = 'http://localhost:8000/api';
 export const BASE_URL = 'https://api-kstabler.herokuapp.com/api';
 
@@ -57,6 +62,18 @@ export const usePermissions = create<permissionState>(
       setIsAdmin: (isAdmin) => set({ isAdmin }),
     }), {
       name: 'isAdmin',
+      getStorage: () => localStorage,
+    },
+  ),
+);
+
+export const useTutorialDone = create<TutorialState>(
+  persist(
+    (set) => ({
+      tutorialDone: false,
+      setTutorialDone: (tutorialDone) => set({ tutorialDone }),
+    }), {
+      name: 'tutorialDone',
       getStorage: () => localStorage,
     },
   ),

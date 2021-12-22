@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
 import ReactModal from 'react-modal';
 import { useMediaQuery } from 'react-responsive';
+import { Steps } from 'intro.js-react';
 import {
   StyledTableContainer, StyledLabel, StyledUnitTwo,
   StyledUnitForm, StyledUnitThree, StyledUnitFour, StyledUnitFive,
@@ -9,7 +10,8 @@ import {
   StyledModalContainer, StyledInfoBox,
 } from './CalendarStyles';
 import API from '../../../Utils/API';
-import { useAuthToken } from '../../../Utils/store';
+import { useAuthToken, useTutorialDone } from '../../../Utils/store';
+
 import TimeSlotForm from '../TimeSlotForm/TimeSlotFrom';
 
 ReactModal.setAppElement('#root');
@@ -56,40 +58,67 @@ interface ModalProps{
   data: ClassType;
   timeslot: Timeslot | undefined;
 }
+const steps = [
+  {
+    element: '#select-subject',
+    intro: 'Now choose a subject',
+  },
+  {
+    element: '#set-subject',
+    intro: 'submit your selection and follow the form',
+  },
+];
 
-export const Modal:React.FC<ModalProps> = ({
+export const Modal: React.FC<ModalProps> = ({
   modalIsOpen, setModalIsOpen, day, unit, className, data, timeslot,
-}) => (
-  <ReactModal
-    isOpen={modalIsOpen}
-    ariaHideApp={false}
-    onRequestClose={() => setModalIsOpen(false)}
-    style={{
-      overlay: { zIndex: 999 },
-      content: { zIndex: 999 },
-    }}
-  >
-    <button type="button" onClick={() => setModalIsOpen(false)} className="close-btn">
-      <img
-        src="https://icongr.am/feather/x.svg?size=25&color=currentColor"
-        alt=""
-      />
-    </button>
-    {data && (
-      <StyledModalContainer>
-        <h1>{`${className} - ${day} - Unit ${unit}`}</h1>
-        <TimeSlotForm
-          day={day}
-          unit={unit}
-          className={className}
-          timeslot={timeslot}
-          setModalIsOpen={setModalIsOpen}
+}) => {
+  const [stepsEnabled, setStepsEnabled] = useState(false);
+  const setTutorialDone = useTutorialDone((state) => state.setTutorialDone);
+  const isTutorialDone = useTutorialDone((state) => state.tutorialDone);
+  useEffect(() => {
+    if (!isTutorialDone) {
+      setStepsEnabled(true);
+    }
+  }, [modalIsOpen]);
+  return (
+    <ReactModal
+      isOpen={modalIsOpen}
+      ariaHideApp={false}
+      onRequestClose={() => setModalIsOpen(false)}
+      style={{
+        overlay: { zIndex: 999 },
+        content: { zIndex: 999 },
+      }}
+    >
+      <button type="button" onClick={() => setModalIsOpen(false)} className="close-btn">
+        <img
+          src="https://icongr.am/feather/x.svg?size=25&color=currentColor"
+          alt=""
         />
-      </StyledModalContainer>
-    )}
-  </ReactModal>
-);
+      </button>
+      {data && (
+        <StyledModalContainer>
+          <Steps
+            enabled={stepsEnabled}
+            steps={steps}
+            initialStep={0}
+            onExit={() => { setStepsEnabled(false); }}
+            onComplete={() => { setTutorialDone(true); }}
+          />
 
+          <h1>{`${className} - ${day} - Unit ${unit}`}</h1>
+          <TimeSlotForm
+            day={day}
+            unit={unit}
+            className={className}
+            timeslot={timeslot}
+            setModalIsOpen={setModalIsOpen}
+          />
+        </StyledModalContainer>
+      )}
+    </ReactModal>
+  );
+};
 const Calendar: React.FC<Props> = ({ yearGroup }) => {
   const isMobile = useMediaQuery({ query: '(max-width: 900px)' });
   const [classes, setClasses] = useState<string[]>([]);
@@ -186,7 +215,6 @@ const Calendar: React.FC<Props> = ({ yearGroup }) => {
                             (timeslot) => timeslot.ClassGroup === e.target.value
                             && timeslot.Day === day && timeslot.Unit === `Unit${unit}`,
                           );
-                          console.log(ClassTimeslot[0]);
                           setClassTimeslot(ClassTimeslot[0]);
                           setModalIsOpen(true);
                         }

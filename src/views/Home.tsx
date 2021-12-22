@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { useMediaQuery } from 'react-responsive';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
+
 import LandingImage from '../Assets/landing.jpg';
 import Button from '../components/Shared/Button';
 
@@ -47,9 +48,7 @@ const StyledImage = styled.img`
 
 function Home() {
   const isMobile = useMediaQuery({ query: '(max-width: 900px)' });
-  useEffect(() => {
-    alert('Welcome to KsTabler. This site is still in Beta, so bugs are expected. Note that classes have only been added for Yr7 and Yr8, and teachers have only been added for Maths, English and IT');
-  }, []);
+
   return (
     <StyledMain>
       <Helmet>

@@ -110,8 +110,8 @@ const TimeSlotFrom: React.FC<Props> = ({
   return (
     <StyledFormContainer>
       <StyledContainer onSubmit={SubmitSubject} disabled={formVisible.subjectDisabled}>
-        <Button type="submit">Set Subject</Button>
-        <StyledSelectContainer style={{ width: 'max-content' }}>
+        <Button type="submit" id="set-subject">Set Subject</Button>
+        <StyledSelectContainer style={{ width: 'max-content' }} id="select-subject">
           {isLoading ? 'Loading' : (
             <StyledSelect onChange={(e) => {
               setSubject(e.target.value);

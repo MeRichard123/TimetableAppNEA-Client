@@ -96,10 +96,11 @@ type Props = {
   marginRight?: any;
   onClick?: () => void;
   width?: string;
+  id?: string;
 }
 
 const Button: React.FC<Props> = ({
-  children, big, marginRight, type, width, onClick, exportButton,
+  children, big, marginRight, type, width, onClick, exportButton, id,
 }) => {
   if (big) {
     return (
@@ -115,7 +116,7 @@ const Button: React.FC<Props> = ({
       </ExportBtn>
     );
   }
-  return <Btn type={type} style={{ marginRight, width: `${width}` }} onClick={onClick}>{children}</Btn>;
+  return <Btn id={id} type={type} style={{ marginRight, width: `${width}` }} onClick={onClick}>{children}</Btn>;
 };
 
 export default Button;
