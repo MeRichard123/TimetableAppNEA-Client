@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useFormik, FormikErrors } from 'formik';
 import { Redirect, useHistory } from 'react-router-dom';
 import StyledPage from '../../components/Layout/Page';
-import { useAuthToken, useAuth, usePermissions } from '../../Utils/store';
+import {
+  useAuthToken, useAuth, usePermissions, useTutorialDone,
+} from '../../Utils/store';
 import API from '../../Utils/API';
 import Button from '../../components/Shared/Button';
 import Eye from '../../components/Shared/Eye';
@@ -38,6 +40,7 @@ const SignIn = () => {
   const isAuthenticated = useAuth((state) => state.isAuthenticated);
   const setIsAdmin = usePermissions((state) => state.setIsAdmin);
   const [pendingLogin, setPendingLogin] = useState<boolean>(false);
+  const setTutorialDone = useTutorialDone((state) => state.setTutorialDone);
 
   const formik = useFormik({
     initialValues: {
@@ -50,6 +53,8 @@ const SignIn = () => {
       try {
         setPendingLogin(true);
         const data = await API.LogInUser(values);
+        const checkTutDone = await API.CheckTutorialDone(data.token);
+        await setTutorialDone(checkTutDone);
         await setToken(data.token);
         await setIsAdmin(data.user.is_staff);
         await setPendingLogin(false);

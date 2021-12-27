@@ -57,6 +57,7 @@ interface ModalProps{
   className: string;
   data: ClassType;
   timeslot: Timeslot | undefined;
+  token: string;
 }
 const steps = [
   {
@@ -70,7 +71,7 @@ const steps = [
 ];
 
 export const Modal: React.FC<ModalProps> = ({
-  modalIsOpen, setModalIsOpen, day, unit, className, data, timeslot,
+  modalIsOpen, setModalIsOpen, day, unit, className, data, timeslot, token,
 }) => {
   const [stepsEnabled, setStepsEnabled] = useState(false);
   const setTutorialDone = useTutorialDone((state) => state.setTutorialDone);
@@ -103,7 +104,7 @@ export const Modal: React.FC<ModalProps> = ({
             steps={steps}
             initialStep={0}
             onExit={() => { setStepsEnabled(false); }}
-            onComplete={() => { setTutorialDone(true); }}
+            onComplete={() => { API.FinishTutorial(token); setTutorialDone(true); }}
           />
 
           <h1>{`${className} - ${day} - Unit ${unit}`}</h1>
@@ -149,6 +150,7 @@ const Calendar: React.FC<Props> = ({ yearGroup }) => {
         className={className}
         data={data}
         timeslot={classTimeslot}
+        token={token}
       />
       )}
       <p />

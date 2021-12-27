@@ -9,6 +9,7 @@ import {
   StyledUnitForm, StyledUnitThree, StyledUnitFour, StyledUnitFive,
   StyledUnitFormTwo, StyledModalContainer,
 } from '../../components/Feature/Calendar/CalendarStyles';
+import { useAuthToken } from '../../Utils/store';
 
 const days:Array<string> = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
 const units:Array<string> = ['1', '2', 'Form', '3', '4', 'Form2', '5'];
@@ -47,6 +48,7 @@ const OverviewTimetable: React.FC<PropTypes> = ({ classCode, timeslots, data }) 
   const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
   const [currentDay, setCurrentDay] = useState<any>();
   const [currentUnit, setCurrentUnit] = useState<any>();
+  const token = useAuthToken((state) => state.token);
   useEffect(() => {
     setFilteredTimeslots(timeslots.filter((timeslot) => timeslot.ClassGroup === classCode));
   }, [classCode]);
@@ -67,6 +69,7 @@ const OverviewTimetable: React.FC<PropTypes> = ({ classCode, timeslots, data }) 
           className={classCode}
           data={data}
           timeslot={undefined}
+          token={token}
         />
 
         <p />

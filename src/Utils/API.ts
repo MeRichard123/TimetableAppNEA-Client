@@ -7,6 +7,23 @@ import type {
   Timeslot, ClassType, OverviewType, CreateTimeslotParams,
 } from './APITypes';
 
+interface UserType{
+  id: number;
+  username: string;
+  email: string;
+  // eslint-disable-next-line camelcase
+  is_staff: boolean;
+}
+interface extendedType{
+  user: string;
+  finishedTutorial: boolean;
+}
+
+interface UserInspectType {
+  user: UserType;
+  extended: extendedType
+}
+
 export default class API {
   /**
    * Post details to login route and authenticate user
@@ -219,6 +236,23 @@ export default class API {
     } else {
       url = `${BASE_URL}/overview/?day=${dayIdentifier}&unit=${unitIdentifier}`;
     }
+    const { data } = await axios.get(url, {
+      headers: { Authorization: `Token ${token}` },
+    });
+    return data;
+  }
+
+  static async CheckTutorialDone(token: string): Promise<boolean> {
+    const url = `${BASE_URL}/auth/user`;
+    const { data } = await axios.get(url, {
+      headers: { Authorization: `Token ${token}` },
+    });
+    const { extended } = data;
+    return extended.finishedTutorial;
+  }
+
+  static async FinishTutorial(token: string): Promise<string> {
+    const url = `${BASE_URL}/completeTutorial`;
     const { data } = await axios.get(url, {
       headers: { Authorization: `Token ${token}` },
     });
