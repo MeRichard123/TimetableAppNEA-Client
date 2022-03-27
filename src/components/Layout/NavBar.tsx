@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Link, useLocation } from 'react-router-dom';
 import Button from '../Shared/Button';
-import { useAuth } from '../../Utils/store';
+import { useAuth, usePermissions } from '../../Utils/store';
 
 interface NavBarProps{
   readonly Authenticated: boolean;
@@ -44,6 +44,7 @@ const StyledNavLink = styled.span<LinkProps>`
 
 const NavBar = () => {
   const isAuthenticated = useAuth((state) => state.isAuthenticated);
+  const isAdmin = usePermissions((state) => state.isAdmin);
 
   const location = useLocation();
 
@@ -70,6 +71,12 @@ const NavBar = () => {
               Overview
             </StyledNavLink>
           </Link>
+          {isAdmin && (
+          <Link to={{pathname:"https://api-kstabler.herokuapp.com/admin"}} target="_blank">
+            <StyledNavLink location={false}>
+                Admin
+            </StyledNavLink>
+          </Link>)}
           <Link to="/signout">
             <Button marginRight="30px">
               Sign Out
