@@ -11,6 +11,7 @@ import API from '../../Utils/API';
 import { useAuthToken } from '../../Utils/store';
 import type {
   OverviewType, RoomResponseObjectType, TeacherResponseObjectType, ClassType, Timeslot,
+  TeacherHoursResponseObjectType, lessonRemainType,
 } from '../../Utils/APITypes';
 import { StyledSelect, StyledOption, StyledSelectContainer } from '../../components/Feature/Calendar/CalendarStyles';
 import OverviewTimetable from './OverviewTimetable';
@@ -40,6 +41,17 @@ const TimetableHeaderContainer = styled.div`
    }
 `;
 
+const StyledSummaryList = styled.ul`
+  display: grid;
+  justify-content: center;
+  margin-top: 30px;
+  grid-template-columns: repeat(auto-fill, 400px);
+`;
+const StyledSummaryButton = styled.summary`
+  cursor: pointer;
+  padding: 0.5rem 1.5rem;
+`;
+
 const Overview = () => {
   const token = useAuthToken((state) => state.token);
   const daysOfTheWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
@@ -50,11 +62,13 @@ const Overview = () => {
 
   const [ComputerRooms, setComputerRooms] = useState<RoomResponseObjectType[]>();
   const [freeTeachers, setFreeTeachers] = useState<TeacherResponseObjectType[]>([]);
+  const [teacherHours, setTeacherHours] = useState<TeacherHoursResponseObjectType>();
 
   const [yearGroup, setYear] = useState<string>('Yr7');
   const [classes, setClasses] = useState<string[]>([]);
   const [classTimeslots, setClassTimeslots] = useState<Timeslot[]>([]);
   const [currentClass, setCurrentClass] = useState<string>('');
+  const [lessonsRemaining, setLessonsRemaining] = useState<lessonRemainType>();
   const [data, setData] = useState<any>();
 
   const { data: allSubjects, isLoading, isSuccess } = useQuery<string[]>(['getAllSubjects', token],
@@ -65,6 +79,7 @@ const Overview = () => {
       (res: OverviewType) => {
         setComputerRooms(res.rooms);
         setFreeTeachers(res.teachers);
+        setTeacherHours(res.teacherHours);
       },
     ).catch((e) => {
       // eslint-disable-next-line no-console
@@ -73,6 +88,7 @@ const Overview = () => {
 
     API.GetClasses(yearGroup, token).then((res:ClassType) => {
       setClasses(res.classes);
+      setLessonsRemaining(res.lessonsRemaining);
       setClassTimeslots(res.timeslots);
       setData(res);
     }).catch((e) => {
@@ -149,7 +165,13 @@ const Overview = () => {
           </StyledSelectContainer>
           <ul>
             {freeTeachers.length > 0 ? freeTeachers?.map((teacher) => (
-              <li key={teacher?.id}>{teacher?.name}</li>
+              <li key={teacher?.id}>
+                {teacher?.name}
+                - Lessons left to assign:
+                {' '}
+                {teacherHours && teacherHours[teacher.name]}
+
+              </li>
             )) : 'No Teachers'}
           </ul>
 
@@ -184,6 +206,24 @@ const Overview = () => {
           </StyledSelectContainer>
           <h1>Timetable</h1>
         </TimetableHeaderContainer>
+        <details>
+          <StyledSummaryButton>View Number of Lessons Missing</StyledSummaryButton>
+          <StyledSummaryList>
+            {lessonsRemaining && currentClass && lessonsRemaining[currentClass]
+              ? (
+                Object.keys(lessonsRemaining[currentClass]).map((subject: string) => (
+                  <li key={subject}>
+                    {subject}
+                    {' '}
+                    -
+                    {' '}
+                    {lessonsRemaining[currentClass][subject]}
+                  </li>
+                ))
+              ) : <p style={{ textAlign: 'center', gridColumn: '1/-1' }}>No Class Selected</p>}
+
+          </StyledSummaryList>
+        </details>
         <OverviewTimetable classCode={currentClass} timeslots={classTimeslots} data={data} />
         <Button type="button" exportButton onClick={() => printDocument()}>Export</Button>
       </StyledInfoContainer>
