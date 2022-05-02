@@ -3,7 +3,7 @@
 import React, { useEffect, useState, useReducer } from 'react';
 import { useQuery } from 'react-query';
 import { StyledFormContainer, StyledContainer, StyledOverViewForm } from './TimeslotStyles';
-import API from '../../../Utils/API';
+import API, { TeacherResponse } from '../../../Utils/API';
 import Button from '../../Shared/Button';
 import {
   StyledSelectContainer, StyledOption, StyledSelect,
@@ -26,7 +26,7 @@ const TimeSlotFrom: React.FC<Props> = ({
   const [formVisible, setFormVisible] = useReducer(reducer, defaultState);
 
   const [SubjectDataArray, setSubjectDataArray] = useState<any>([]);
-  const [TeacherDataArray, setTeacherDataArray] = useState<any>([]);
+  const [TeacherDataArray, setTeacherDataArray] = useState<TeacherResponse>();
   const [RoomDataArray, setRoomDataArray] = useState<any>([]);
 
   // Form Data
@@ -46,6 +46,7 @@ const TimeSlotFrom: React.FC<Props> = ({
       try {
         const data = await API.GetFilteredTeachers(day, unit, Subject, token);
         setTeacherDataArray(data);
+        console.log(data);
         setFormVisible({ type: 'teacherForm' });
       } catch (error) {
         console.error(error);
@@ -137,10 +138,16 @@ const TimeSlotFrom: React.FC<Props> = ({
           }}
           >
             <StyledOption>Select Teacher</StyledOption>
-            {TeacherDataArray.length > 0 ? TeacherDataArray?.map((teacher:TeacherType) => (
-              <StyledOption key={teacher.name}>{teacher.name}</StyledOption>
+            {TeacherDataArray && TeacherDataArray.teachers.length > 0
+              ? TeacherDataArray?.teachers?.map((teacher: TeacherType) => (
+                <StyledOption key={teacher.name} bold>{teacher.name}</StyledOption>
 
-            )) : <StyledOption disabled>No Teachers Found</StyledOption>}
+              )) : <StyledOption disabled>No Specific Teachers Found</StyledOption>}
+            {TeacherDataArray && TeacherDataArray.allTeachers.length > 0
+              ? TeacherDataArray.allTeachers?.map((teacher: TeacherType) => (
+                <StyledOption key={teacher.name}>{teacher.name}</StyledOption>
+              )) : <StyledOption disabled>No Teachers Found</StyledOption>}
+
           </StyledSelect>
         </StyledSelectContainer>
       </StyledContainer>

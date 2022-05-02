@@ -7,6 +7,11 @@ import type {
   Timeslot, ClassType, OverviewType, CreateTimeslotParams,
 } from './APITypes';
 
+export interface TeacherResponse{
+  teachers: TeacherType[];
+  allTeachers: TeacherType[];
+}
+
 interface UserType{
   id: number;
   username: string;
@@ -104,7 +109,7 @@ export default class API {
     className: string, token: string): Promise<SubjectType[]> {
     // http://localhost:8000/api/subjects/7/?day=Mon&unit=5&class=7B2
     // extract yeargroup from 7A2 and 11A4.
-    const YearGroup = className.length === 3 ? className[0] : className.substr(0, 2);
+    const YearGroup = className.length === 3 ? className[0] : className.substring(0, 2);
     const url = `${BASE_URL}/subjects/${YearGroup}/?day=${day}&unit=${unit}&class=${className}`;
     const { data } = await axios.get(url, {
       headers: { Authorization: `Token ${token}` },
@@ -134,13 +139,13 @@ export default class API {
    * @param {string} unit - unit of the day
    * @param {string} subject - the subject for which you need teachers
    * @param {string} token - jwt auth token from login
-   * @returns an array of teachers
+   * @returns an object of array of teachers
    *
    * @example
    * const teachers = API.GetFilteredTeachers('Mon','1','Maths','5564fdsgfg')
    */
   static async GetFilteredTeachers(day: string, unit: string,
-    subject: string, token: string): Promise<TeacherType[]> {
+    subject: string, token: string): Promise<TeacherResponse> {
     //  http://localhost:8000/api/teachers/?day=Mon&unit=1&subject=Maths
     const url = `${BASE_URL}/teachers/?day=${day}&unit=${unit}&subject=${subject}`;
     const { data } = await axios.get(url, {

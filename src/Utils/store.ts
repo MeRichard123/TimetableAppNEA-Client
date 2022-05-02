@@ -26,8 +26,8 @@ type TutorialState = {
   setTutorialDone: (tutorialDone: boolean) => void;
 }
 
-export const BASE_URL = 'http://localhost:8000/api';
-// export const BASE_URL = 'https://api-kstabler.herokuapp.com/api';
+// export const BASE_URL = 'http://localhost:8000/api';
+export const BASE_URL = 'https://api-kstabler.herokuapp.com/api';
 
 export const useAuthToken = create<tokenState>(
   persist(
